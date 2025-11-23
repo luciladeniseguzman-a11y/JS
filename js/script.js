@@ -31,3 +31,49 @@ function solicitarDatos() {
 
     return confirmar;
 }
+
+
+function procesarViaje() {
+    let saldo = presupuesto;
+    gastosPorDia = [];
+
+    console.log("----- INICIO DE SIMULACIÓN -----");
+
+    for (let dia = 1; dia <= diasViaje; dia++) {
+        console.log("\nDía " + dia);
+
+        let gastoDia = 5000;
+
+        const eventos = [
+            { nombre: "Extras", extra: 0 },
+            { nombre: "Parques o atracciones", extra: 1000 },
+            { nombre: "Salidas nocturnas", extra: 2000 },
+            { nombre: "Compra de souveniles", extra: 3000 }
+        ];
+
+        let evento = eventos[Math.floor(Math.random() * eventos.length)];
+
+        console.log("Evento: " + evento.nombre + " (+$" + evento.extra + ")");
+
+        gastoDia += evento.extra;
+
+        let recortar = confirm("Día " + dia + ": ¿Deseas aplicar un recorte del 10%?");
+        if (recortar) {
+            gastoDia = Math.round(gastoDia * 0.9);
+            console.log("Recorte aplicado. Gasto del día: $" + gastoDia);
+        }
+
+        saldo -= gastoDia;
+
+        gastosPorDia.push({
+            dia: dia,
+            gasto: gastoDia,
+            evento: evento.nombre
+        });
+
+        console.log("Gasto total del día: $" + gastoDia);
+        console.log("Saldo restante: $" + saldo);
+    }
+
+    return { saldoFinal: saldo, detalles: gastosPorDia };
+}
