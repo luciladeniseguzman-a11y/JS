@@ -77,3 +77,37 @@ function procesarViaje() {
 
     return { saldoFinal: saldo, detalles: gastosPorDia };
 }
+
+
+function mostrarResultados(resultado) {
+    console.log("\n----- RESULTADOS FINALES -----");
+    console.log("Viajero: " + usuario);
+    console.log("Presupuesto inicial: $" + presupuesto);
+    resultado.detalles.forEach(d => {
+        console.log("Día " + d.dia + " - Gasto: $" + d.gasto + " - Evento: " + d.evento);
+    });
+    console.log("Saldo final: $" + resultado.saldoFinal);
+
+    let mensaje = "Resumen del viaje:\n";
+    mensaje += "Viajero: " + usuario + "\n";
+    mensaje += "Presupuesto inicial: $" + presupuesto + "\n";
+    mensaje += "Saldo final: $" + resultado.saldoFinal + "\n\n";
+    mensaje += "Detalle:\n";
+
+    resultado.detalles.forEach(d => {
+        mensaje += "Día " + d.dia + ": $" + d.gasto + " (" + d.evento + ")\n";
+    });
+
+    alert(mensaje);
+}
+
+document.getElementById("startBtn").addEventListener("click", function () {
+    const continuar = solicitarDatos();
+    if (!continuar) {
+        alert("Simulación cancelada.");
+        return;
+    }
+
+    const resultado = procesarViaje();
+    mostrarResultados(resultado);
+});
